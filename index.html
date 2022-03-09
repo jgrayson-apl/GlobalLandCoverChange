@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <!-- Responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <!-- End Responsive -->
+    <link rel="icon" href="./assets/favicon.ico" sizes="32x32" type="image/vnd.microsoft.icon">
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/4.20/esri/css/main.css">
+    <link rel="stylesheet" href="./styles/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+    <script src="./app/dojo.js"></script>
+    <script src="https://js.arcgis.com/4.20/"></script>
+    <script>require(["Application/init"]);</script>
+  </head>
+  <body class="">
+
+    <!-- DETAILS -->
+    <div class="js-modal modal-overlay" data-modal="app-details-dialog">
+      <div class="modal-content column-14" aria-labelledby="modal" role="dialog">
+        <div class="modal-content-row trailer-half">
+          <div id="app-title-label" class="font-size-3"></div>
+          <div class="js-modal-toggle esri-interactive icon-ui-close" aria-label="close-modal"></div>
+        </div>
+        <div id="app-description-panel" class="panel panel-dark font-size-1 trailer-half">
+          <div>
+            This application uses the
+            <a class="link-white" href="https://www.arcgis.com/home/item.html?id=1453082255024699af55c960bc3dc1fe" target="_blank">
+              'Global Land Cover 1992-2018'
+              <span class="icon-ui-link-external icon-ui-flush"></span>
+            </a>
+            layer from the ArcGIS Living Atlas of the World. This layer is a time series of the annual ESA CCI (Climate Change Initiative) land cover maps of the world. ESA has produced land cover maps for the years since 1992. These are available at the
+            <a class="link-white" href="https://www.esa-landcover-cci.org/" target="_blank">
+              European Space Agency Climate Change Initiative website.
+              <span class="icon-ui-link-external icon-ui-flush"></span>
+            </a>
+          </div>
+          <div class="leader-1">
+            Learn More:
+            <ul>
+              <li>
+                <a class="link-white" href="https://www.esri.com/arcgis-blog/products/data-management/data-management/world-land-cover-2010-from-esa-now-available-in-the-living-atlas/" target="_blank">
+                  World Land Cover 2010 from ESA now available in the Living Atlas
+                </a>
+              </li>
+              <li>
+                <a class="link-white" href="https://www.esri.com/arcgis-blog/products/arcgis-living-atlas/mapping/three-decades-of-global-land-cover-change/" target="_blank">
+                  Three Decades of Global Land Cover Change
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="modal-content-row leader-1">
+          <img src="./assets/esri_science_of_where.png" class="left">
+          <div class="modal-content-row">
+            <label class="modal-content-row trailer-0 margin-right-1">
+              <div class="inline-block font-size--2">hide on startup&nbsp;</div>
+              <input id="hide-startup-input" type="checkbox" style="vertical-align:middle;">
+            </label>
+            <button class="btn btn-white js-modal-toggle">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOP NAVIGATION -->
+    <header id="header-panel" class="panel panel-no-padding panel-no-border padding-left-1 padding-right-1">
+      <!-- APP TITLE -->
+      <span id="app-title-node" class="top-nav-title header-text"></span>
+
+      <!-- MAP AND CONTENT -->
+      <nav class="top-nav-list hide" role="navigation" aria-labelledby="topnav">
+        <span class="top-nav-link esri-interactive js-drawer-toggle header-text margin-left-3" data-drawer="top-nav">Map</span>
+      </nav>
+
+      <div id="renderer-dropdown" class="top-nav-link header-text margin-left-4">
+        <span>Display:</span>
+        <div class="dropdown js-dropdown header-text">
+          <span class="esri-interactive js-dropdown-toggle" tabindex="0" aria-haspopup="true" aria-expanded="false">
+            <span id="renderer-label" class="avenir-demi"></span>
+          </span>
+          <nav id="renderer-menu" class="dropdown-menu" role="menu"></nav>
+        </div>
+      </div>
+
+      <!-- RIGHT ALIGNED -->
+      <nav class="top-nav-list right" role="navigation">
+
+        <!-- APP DETAILS -->
+        <span class="top-nav-link icon-ui-description header-text js-modal-toggle margin-left-1 esri-interactive" data-modal="app-details-dialog"></span>
+
+      </nav>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <div id="main-container">
+      <div id="left-container" class="panel panel-themed panel-no-border padding-right-half column-6">
+        <div id="chart-panel" class="panel panel-black panel-no-border">
+          <canvas id="chart-node"></canvas>
+        </div>
+      </div>
+      <div id="center-container" class="panel panel-themed panel-no-border padding-left-half">
+        <div id="time-slider-panel" class="panel panel-black panel-no-padding panel-no-border  trailer-half">
+          <div id="time-slider-node"></div>
+        </div>
+        <div id="view-container" class="loading panel panel-black panel-no-padding panel-no-border"></div>
+      </div>
+    </div>
+
+    <div id="location-panel" class="panel panel-dark panel-no-border column-4 hide">
+      <div id="location-info-label" class="font-size-1 text-center">Land Cover by Year</div>
+      <div id="location-coords-node" class="font-size--3 avenir-italic text-center">lon:&nbsp;&plusmn;---.----&nbsp;&nbsp;lat:&nbsp;&plusmn;--.----</div>
+      <div id="location-clear" class="btn-link link-white text-right font-size--3 btn-disabled" title="clear location info">clear</div>
+      <div id="location-info-panel" class="panel text-off-black"></div>
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,30 @@
+{
+  "title": "Compare Land Cover Change - 1992 to 2018",
+  "appid": "",
+  "group": "",
+  "webmap": "66fc23d4d9a74ffdbe491d13d0e0da74",
+  "webscene": "",
+  "portalUrl": "https://www.arcgis.com",
+  "oauthappid": "ZtZXXA5tNF6rxXCQ",
+  "proxyUrl": "",
+  "units": "dual",
+  "helperServices": {
+    "geometry": {
+      "url": null
+    },
+    "printTask": {
+      "url": null
+    },
+    "elevationSync": {
+      "url": null
+    },
+    "geocode": [
+      {
+        "url": null
+      }
+    ]
+  },
+  "ThemeTextColor": "",
+  "ThemeBackgroundColor": "",
+  "ThemeHighlightColor": ""
+}
